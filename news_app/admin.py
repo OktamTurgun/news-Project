@@ -4,8 +4,8 @@ from .models import News, Category, Contact
 # Register your models here.
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ("title", "slug", "published_at", "created_at", "category", "status")
-    list_filter = ("status", "category", "published_at")
+    list_display = ("title", "author", "slug", "published_at", "created_at", "category", "status")
+    list_filter = ("status", "author", "category", "published_at")
     prepopulated_fields = {"slug": ("title",)}
     date_hierarchy = "published_at"
     search_fields = ("title", "content")

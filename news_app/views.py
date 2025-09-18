@@ -1,9 +1,18 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import (
+  ListView, 
+  DetailView, 
+  TemplateView, 
+  CreateView, 
+  UpdateView, 
+  DeleteView
+)
 from django.views.generic.edit import FormView
 from .models import News, Category
-from .forms import ContactForm
+from .forms import ContactForm, NewsForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 # def news_list(request):
@@ -165,3 +174,30 @@ class CategoryDetailView(DetailView):
         context['categories'] = Category.objects.all()
         return context
     
+class NewsCreateView(LoginRequiredMixin, CreateView):
+    model = News
+    form_class = NewsForm
+    template_name = 'crud/news_create.html'
+    success_url = reverse_lazy('news_list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user 
+        return super().form_valid(form)
+
+class NewsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = News
+    form_class = NewsForm
+    template_name = 'crud/news_edit.html'
+
+    def test_func(self):
+        news = self.get_object()
+        return self.request.user == news.author or self.request.user.is_superuser
+
+class NewsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = News
+    template_name = 'crud/news_delete.html'
+    success_url = reverse_lazy('news_deatil')
+
+    def test_func(self):
+        news = self.get_object()
+        return self.request.user == news.author or self.request.user.is_superuser
