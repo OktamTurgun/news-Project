@@ -1,5 +1,16 @@
 from django.urls import path
-from .views import HomePageView, SinglePageView, NewsListView, AboutPageView, ContactPageView, custom_404_view, CategoryDetailView
+from .views import(
+  HomePageView, 
+  SinglePageView, 
+  NewsListView, 
+  AboutPageView, 
+  ContactPageView, 
+  custom_404_view, 
+  CategoryDetailView, 
+  NewsCreateView, 
+  NewsUpdateView, 
+  NewsDeleteView
+)
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
@@ -9,4 +20,7 @@ urlpatterns = [
     path('about/', AboutPageView.as_view(), name='about'),
     path('contact/', ContactPageView.as_view(), name='contact'),
     path('404/', custom_404_view, name='404'),
+    path("news/create/", NewsCreateView.as_view(), name="news_create"),
+    path("news/<int:pk>/edit/", NewsUpdateView.as_view(), name="news_edit"),
+    path("news/<int:pk>/delete/", NewsDeleteView.as_view(), name="news_delete"),
 ]

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contact
+from .models import Contact, News
 
 class ContactForm(forms.ModelForm):
 
@@ -62,3 +62,16 @@ class ContactForm(forms.ModelForm):
     if commit:
       instance.save()
     return instance
+
+class NewsForm(forms.ModelForm):
+  class Meta:
+    model = News
+    fields = ["title", "content", "image", "category", "status"]
+    widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'slug': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-select'}),
+            'status': forms.Select(attrs={'class': 'form-select'}),
+        }
