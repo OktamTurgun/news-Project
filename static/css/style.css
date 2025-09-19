@@ -388,4 +388,22 @@ figure.effect-layla:hover figcaption::after, figure.effect-layla:hover h2, figur
     }
 }
 
+/* ================================
+   Custom Button Styles
+   Added: .btn-purple for "Create News" button
+   Color: #d083cf (hover: #b366af)
+   ================================ */
+
+.btn-purple {
+    background-color: #d083cf;
+    border-color: #d083cf;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: #b366af;
+    border-color: #b366af;
+    color: white;
+}
+
 

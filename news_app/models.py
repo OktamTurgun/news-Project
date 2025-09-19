@@ -66,7 +66,10 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse("news_detail", kwargs={"slug": self.slug})
     
-
+    def save(self, *args, **kwargs):
+        if not self.slug:  
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
