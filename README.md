@@ -24,7 +24,7 @@ Bu loyiha orqali foydalanuvchilar yangiliklarni ko'rishlari, kategoriyalar bo'yi
 
 ### 1. Repozitoriyani klonlash
 ```bash
-git clone https://github.com/<username>/news-project.git
+git clone https://github.com/UktamTurgun/news-project.git
 cd news-project
 ```
 
@@ -103,7 +103,7 @@ news-project/
 ## 🎯 Asosiy funksiyalar
 
 ### Models
-- **News** - Yangiliklar modeli
+- **news_app** - Yangiliklar modeli
 - **Category** - Kategoriyalar modeli  
 - **Contact** - Aloqa so'rovlari modeli
 
