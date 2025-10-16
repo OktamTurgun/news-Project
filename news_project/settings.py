@@ -123,17 +123,23 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 # === STATIC & MEDIA SETTINGS ===
 STATIC_URL = '/static/'
 
+# Local development paytida ishlatiladigan static papka
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# Production yoki local bo‘lishiga qarab yo‘lni aniqlaymiz
+if not DEBUG:  # Production
+    STATIC_ROOT = '/home/djangomo/django-mohirdev-demo.uz/django/staticfiles'
+    MEDIA_ROOT = '/home/djangomo/django-mohirdev-demo.uz/django/media'
+else:  # Development
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    MEDIA_ROOT = BASE_DIR / "media"
 
+# WhiteNoise — static fayllarni siqib, cache bilan tez xizmat qiladi
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 
 # === SECURITY (Production uchun) ===
 CSRF_COOKIE_SECURE = not DEBUG
