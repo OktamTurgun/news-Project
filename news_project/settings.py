@@ -19,8 +19,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'django-mohirdev-demo.uz',
-    'www.django-mohirdev-demo.uz',
+    'UktamTurgun.pythonanywhere.com',
 ]
 
 
