@@ -4,10 +4,12 @@ Optimized for both development and production environments.
 """
 
 from pathlib import Path
-from decouple import config
+from decouple import Config, RepositoryEnv
 
 # === BASE DIRECTORY ===
 BASE_DIR = Path(__file__).resolve().parent.parent
+env_path = BASE_DIR / '.env'
+config = Config(RepositoryEnv(env_path))
 
 
 # === SECURITY SETTINGS ===
