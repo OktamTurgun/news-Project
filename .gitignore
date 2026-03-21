@@ -53,3 +53,5 @@ Pipfile.lock
 # System files
 .DS_Store
 Thumbs.db
+
+cleanup-merged-branches.ps1
