@@ -29,6 +29,10 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="header_top">
+                    <!-- Mobile home icon -->
+                    <a href="{% url 'news:home' %}" class="mobile-home-btn">
+                        <i class="fa fa-home"></i>
+                    </a>
                     <div class="header_top_left">
                         <ul class="top_nav">
                             <li><a href="{% url 'news:home' %}">{% trans "Bosh sahifa" %}</a></li>
@@ -41,13 +45,15 @@
                             {% endif %}
                         </ul>
                     </div>
-                    <!--  header_top_right qismi -->
                     <div class="header_top_right pull-right">
-                        <!-- Sana va vaqt -->
                         <p id="current-date" class="pull-left navbar-date">
                             {% now 'l, d F Y H:i' %}
                         </p>
-                        <!-- Qidiruv -->
+                        <!-- Mobile search toggle -->
+                        <button class="search-toggle-btn" id="searchToggle" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <!-- Desktop search -->
                         <form class="navbar-form navbar-left navbar-search" method="get" action="{% url 'news:search' %}" role="search">
                             <div class="form-group">
                                 <input type="text" class="form-control input-sm" name="q" placeholder="Qidiruv..." value="{{ request.GET.q }}">
@@ -56,7 +62,13 @@
                                 <i class="fa fa-search"></i>
                             </button>
                         </form>
-
+                        <!-- Mobile search box -->
+                        <div class="mobile-search-box" id="mobileSearch">
+                            <form method="get" action="{% url 'news:search' %}" style="display:flex;gap:8px;width:100%;">
+                                <input type="text" name="q" placeholder="Qidiruv..." value="{{ request.GET.q }}">
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
                         <!-- Auth menyu -->
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
@@ -66,7 +78,6 @@
                                             {% if user.profile.avatar %}
                                                 <img src="{{ user.profile.avatar.url }}" alt="Profile" class="avatar-img">
                                             {% else %}
-                                                <!-- Username ning birinchi harfini circle ichida ko'rsatish -->
                                                 <div class="user-avatar-circle">
                                                     {{ user.username|first|upper }}
                                                 </div>
@@ -80,22 +91,13 @@
                                             <i class="fa fa-user"></i> {{ user.get_full_name|default:user.username }}
                                         </li>
                                         <li class="divider"></li>
-                                        <li>
-                                            <a href="{% url 'accounts:user_profile' %}">
-                                                <i class="fa fa-user"></i> Profile
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'accounts:edit_profile' %}">
-                                                <i class="fa fa-pencil"></i> Edit Profile
-                                            </a>
-                                        </li>
+                                        <li><a href="{% url 'accounts:user_profile' %}"><i class="fa fa-user"></i> Profile</a></li>
+                                        <li><a href="{% url 'accounts:edit_profile' %}"><i class="fa fa-pencil"></i> Edit Profile</a></li>
                                         <li class="divider"></li>
                                         <li>
                                             <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0;">
                                                 {% csrf_token %}
-                                                <button type="submit" class="logout-btn"
-                                                        onclick="return confirm('Rostdan ham chiqmoqchimisiz?')">
+                                                <button type="submit" class="logout-btn" onclick="return confirm('Rostdan ham chiqmoqchimisiz?')">
                                                     <i class="fa fa-sign-out"></i> Logout
                                                 </button>
                                             </form>
@@ -126,22 +128,25 @@
             </div>
         </div>
     </header>
+
     <section id="navArea">
         <nav class="navbar navbar-inverse" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> 
-                    <span class="sr-only">Toggle navigation</span> 
-                    <span class="icon-bar"></span> 
-                    <span class="icon-bar"></span> 
-                    <span class="icon-bar"></span> 
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav main_nav">
+
+                    <!-- Desktop: home icon, Mobile: "Bosh sahifa" text -->
                     <li class="active">
                         <a href="{% url 'news:home' %}">
-                        <span class="fa fa-home desktop-home"></span>
-                        <span class="mobile-show">{% trans "Bosh sahifa" %}</span>
+                            <span class="fa fa-home hidden-xs"></span>
+                            <span class="visible-xs-inline">{% trans "Bosh sahifa" %}</span>
                         </a>
                     </li>
 
@@ -151,31 +156,92 @@
 
                     <li><a href="{% url 'news:contact' %}">{% trans "Biz bilan aloqa" %}</a></li>
                     <li><a href="{% url 'news:404' %}">{% trans "404 sahifa" %}</a></li>
+
+                    <!-- Til tanlash -->
                     <li class="lang-form" style="list-style:none;">
                         <form action="{% url 'set_language' %}" method="post" class="lang-form" style="margin:0;">
                             {% csrf_token %}
                             {% get_current_language as LANGUAGE_CODE %}
                             {% get_available_languages as LANGUAGES %}
                             <select name="language" onchange="this.form.submit()" class="nav-lang-select">
-                            {% for lang_code, lang_name in LANGUAGES %}
-                                <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
-                                {{ lang_code|upper }}
-                                </option>
-                            {% endfor %}
+                                {% for lang_code, lang_name in LANGUAGES %}
+                                    <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                                        {{ lang_code|upper }}
+                                    </option>
+                                {% endfor %}
                             </select>
                         </form>
                     </li>
+
+                    <!-- ============================================
+                         MOBILE DA KO'RINADIGAN QO'SHIMCHA LINKLAR
+                         ============================================ -->
+                    <li class="divider visible-xs" style="border-top:1px solid #444;margin:6px 0;"></li>
+
+                    <li class="visible-xs">
+                        <a href="{% url 'news:about' %}">
+                            <i class="fa fa-info-circle"></i> {% trans "Biz haqimizda" %}
+                        </a>
+                    </li>
+
+                    {% if user.is_staff %}
+                    <li class="visible-xs">
+                        <a href="{% url 'accounts:admin_page' %}">
+                            <i class="fa fa-cog"></i> {% trans "Admin sahifasi" %}
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <li class="visible-xs">
+                        <a href="{% url 'accounts:user_profile' %}">
+                            <i class="fa fa-user"></i> {% trans "Profil" %}
+                        </a>
+                    </li>
+                    <li class="visible-xs">
+                        <a href="{% url 'accounts:edit_profile' %}">
+                            <i class="fa fa-pencil"></i> {% trans "Profilni tahrirlash" %}
+                        </a>
+                    </li>
+                    <li class="visible-xs">
+                        <form method="post" action="{% url 'accounts:logout' %}" style="margin:0;">
+                            {% csrf_token %}
+                            <button type="submit" style="background:none;border:none;color:#9d9d9d;padding:10px 15px;width:100%;text-align:left;cursor:pointer;font-size:14px;">
+                                <i class="fa fa-sign-out"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="visible-xs">
+                        <a href="{% url 'accounts:login' %}">
+                            <i class="fa fa-sign-in"></i> Login
+                        </a>
+                    </li>
+                    <li class="visible-xs">
+                        <a href="{% url 'accounts:register' %}">
+                            <i class="fa fa-user-plus"></i> Signup
+                        </a>
+                    </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </nav>
     </section>
+
     <section id="newsSection">
         <div class="row">
             <div class="col-lg-12 col-md-12">
-                <div class="latest_newsarea"> <span>{% trans "So'nggi yangiliklar" %}</span>
+                <div class="latest_newsarea">
+                    <span>{% trans "So'nggi yangiliklar" %}</span>
                     <ul id="ticker01" class="news_sticker">
                         {% for news in latest_news %}
-                        <li><a href="{{ news.get_absolute_url }}"><img src="{{ news.image.url }}" alt="News thumbnail">{{ news.get_translated_title }}</a></li>
+                        <li>
+                            <a href="{{ news.get_absolute_url }}">
+                                {% if news.image %}<img src="{{ news.image.url }}" alt="News thumbnail">{% endif %}
+                                {{ news.get_translated_title }}
+                            </a>
+                        </li>
                         {% endfor %}
                     </ul>
                     <div class="social_area">
@@ -223,10 +289,8 @@
                         <h2>{% trans "Biz bilan aloqa" %}</h2>
                         <p>{% trans "Agar savol yoki takliflaringiz bo'lsa biz bilan bog'laning." %}</p>
                         <address>
-                            <strong>{% trans "Email:" %}</strong> info@uktamdev.uz
-                            <br>
-                            <strong>{% trans "Manzil:" %}</strong>{% trans "Toshkent shahri, Chilonzor tumani, 12-uy" %}
-                            <br>
+                            <strong>{% trans "Email:" %}</strong> info@uktamdev.uz<br>
+                            <strong>{% trans "Manzil:" %}</strong> {% trans "Toshkent shahri, Chilonzor tumani, 12-uy" %}<br>
                             <strong>{% trans "Telefon:" %}</strong> +998 90 123 45 67
                         </address>
                     </div>
@@ -240,13 +304,12 @@
                         <p class="copyright">
                             {% trans "Copyright © 2025" %}
                             <a href="{% url 'news:home' %}">UktamDev</a>.
-                             {% trans "Barcha huquqlar himoyalangan." %}
+                            {% trans "Barcha huquqlar himoyalangan." %}
                         </p>
                     </div>
                     <div class="footer-col">
                         <p class="developer">
-                            
-                                {% trans "Developed By " %}<a href="https://wpfreeware.com/" target="_blank">Wpfreeware</a>
+                            {% trans "Developed By " %}<a href="https://wpfreeware.com/" target="_blank">Wpfreeware</a>
                         </p>
                     </div>
                     <div class="footer-col">
@@ -263,13 +326,19 @@
         </div>
     </footer>
 </div>
-<script src="{% static 'js/jquery.min.js' %}"></script> 
-<script src="{% static 'js/wow.min.js' %}"></script> 
-<script src="{% static 'js/bootstrap.min.js' %}"></script> 
-<script src="{% static 'js/slick.min.js' %}"></script> 
-<script src="{% static 'js/jquery.li-scroller.1.0.js' %}"></script> 
-<script src="{% static 'js/jquery.newsTicker.min.js' %}"></script> 
-<script src="{% static 'js/jquery.fancybox.pack.js' %}"></script> 
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/wow.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/slick.min.js' %}"></script>
+<script src="{% static 'js/jquery.li-scroller.1.0.js' %}"></script>
+<script src="{% static 'js/jquery.newsTicker.min.js' %}"></script>
+<script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
 <script src="{% static 'js/custom.js' %}"></script>
+<script>
+document.getElementById('searchToggle').addEventListener('click', function() {
+    document.getElementById('mobileSearch').classList.toggle('active');
+});
+</script>
 </body>
 </html>

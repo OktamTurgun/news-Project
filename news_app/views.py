@@ -15,7 +15,7 @@ from .forms import ContactForm, NewsForm, CommentForm
 from django.urls import reverse_lazy
 from django.db.models import Q, F
 from django.core.paginator import Paginator
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+# from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 # ================================
 # NewsList view - FUNCTION BASED

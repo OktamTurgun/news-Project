@@ -1,15 +1,130 @@
+/* ========================================
+   BASE STYLES
+   ======================================== */
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
-h1 {
-    margin-bottom: 30px;
-    color: #333;
+/* === HEADER === */
+.header_top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    gap: 8px;
 }
 
+.header_top_right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* === MOBILE HOME BUTTON === */
+.mobile-home-btn {
+    display: none;
+    color: #ffffff !important;
+    font-size: 20px;
+    padding: 4px 10px;
+    text-decoration: none;
+    align-items: center;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+.mobile-home-btn:hover,
+.mobile-home-btn:focus {
+    color: #D083CF !important;
+    text-decoration: none;
+    opacity: 1;
+}
+
+/* === SEARCH TOGGLE === */
+.search-toggle-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.navbar-search {
+    display: inline-block;
+}
+
+.mobile-search-box {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #222;
+    padding: 10px;
+    z-index: 9999;
+}
+
+.mobile-search-box.active {
+    display: flex;
+    gap: 8px;
+}
+
+.mobile-search-box input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+}
+
+.mobile-search-box button {
+    padding: 8px 14px;
+    background: #D083CF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* === NAVBAR DATE === */
+.navbar-date {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* === AVATAR === */
+.avatar-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #D083CF;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.user-info-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* === NEWS CARDS === */
 .news-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -25,26 +140,28 @@ h1 {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
     color: inherit;
+    width: 100%;
 }
 
 .news-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
-.news-card img {
+.news-card img,
+.news-card .news-image {
     width: 100%;
     height: 160px;
     object-fit: cover;
 }
 
 .news-content {
-    padding: 15px;
+    padding: 12px;
 }
 
 .news-content h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
+    margin: 0 0 8px;
+    font-size: 16px;
     color: #222;
 }
 
@@ -56,112 +173,152 @@ h1 {
 
 .news-content .category {
     font-size: 13px;
-    color: #007bff;
-    margin-bottom: 8px;
+    color: #D083CF;
+    margin-bottom: 6px;
     display: block;
 }
 
-/* News detail asosiy blok */
+/* === NEWS DETAIL === */
 .news-detail {
-    max-width: 57%;
-    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
     background-color: #f9f9f9;
     border-radius: 8px;
-}
-
-.news-detail h1 {
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.news-detail .category {
-    color: #888;
-    font-size: 14px;
+    box-sizing: border-box;
 }
 
 .news-detail .news-image {
     width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 15px 0;
+    margin: 12px 0;
 }
 
 .news-detail .news-content {
-    line-height: 1.6;
+    line-height: 1.7;
     font-size: 16px;
     color: #444;
 }
 
-.related-news .news-card .news-content .news-date {
-    font-size: 13px;
-    margin-top: 5px;
-    color: #aaa;
-    display: block;
-}
-
-/* Related news qismi */
+/* === RELATED NEWS === */
 .related-news {
     display: flex;
-    gap: 20px;
+    gap: 16px;
     flex-wrap: wrap;
     margin-top: 15px;
 }
 
-.news-card {
-    width: 280px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* Header position relative — dropdown to'g'ri joylashsin */
+#header {
+    position: relative;
+    z-index: 1000;
 }
 
-.news-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+/* Dropdown ustida tursin */
+.navbar-right .dropdown-menu {
+    z-index: 1100;
 }
 
-.news-card .news-image {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
+/* ========================================
+   TABLET — max 992px
+   ======================================== */
+@media (max-width: 992px) {
+    .header_top_left ul.top_nav { display: none; }
+    .add_banner { display: none; }
+    .navbar-date { display: none; }
 }
 
-.news-content {
-    padding: 10px;
+/* ========================================
+   MOBILE — max 768px (BITTA BLOK)
+   ======================================== */
+@media (max-width: 768px) {
+
+    /* Home button */
+    .mobile-home-btn {
+        display: inline-flex !important;
+        align-items: center;
+    }
+
+    /* Header */
+    .header_top {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        min-height: 46px;
+        position: relative;
+        padding: 6px 10px !important;
+    }
+
+    .header_top_left { display: none !important; }
+
+    .header_top_right {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        float: none !important;
+        margin-left: auto !important;
+    }
+
+    /* Search */
+    .search-toggle-btn {
+        display: inline-flex !important;
+        align-items: center;
+    }
+    .navbar-search { display: none !important; }
+
+    /* Logo */
+    .header_bottom { flex-direction: column; align-items: center; padding: 8px; }
+    .logo_area img { max-height: 50px; }
+
+    /* Buttons */
+    .login-btn, .signup-btn {
+        padding: 4px 8px !important;
+        font-size: 12px !important;
+    }
+
+    /* Ticker & social */
+    .latest_newsarea { font-size: 13px; }
+    .social_area { display: none; }
+
+    /* Cards */
+    .news-card { width: 100% !important; }
+    .news-detail { max-width: 100%; padding: 12px; }
+    .related-news { flex-direction: column; }
+
+    /* Footer */
+    .footer_top .col-lg-4,
+    .footer_top .col-md-4,
+    .footer_top .col-sm-4 { width: 100%; margin-bottom: 20px; }
+    .footer-row { flex-direction: column; text-align: center; gap: 8px; }
+
+    /* Home page columns */
+    #sliderSection .col-lg-8, #sliderSection .col-md-8, #sliderSection .col-sm-8,
+    #contentSection .col-lg-8, #contentSection .col-md-8, #contentSection .col-sm-8,
+    #sliderSection .col-lg-4, #sliderSection .col-md-4, #sliderSection .col-sm-4,
+    #contentSection .col-lg-4, #contentSection .col-md-4, #contentSection .col-sm-4 {
+        width: 100% !important;
+        float: none !important;
+    }
+
+    .right_content { margin-top: 20px; }
+    .slick_slider img { width: 100%; height: 220px; object-fit: cover; }
+    .bsbig_fig img { width: 100%; height: 200px; object-fit: cover; }
+
+    .fashion_technology_area .fashion,
+    .fashion_technology_area .technology { width: 100% !important; float: none !important; }
+
+    .photograph_nav li { width: 50% !important; }
+    .latest_post { display: none; }
+    .media-left img { width: 70px !important; height: 55px !important; object-fit: cover; }
+    .vide_area iframe { width: 100%; height: 200px; }
 }
 
-.news-title {
-    margin: 0 0 10px;
-    font-size: 18px;
-}
-
-.news-link {
-    text-decoration: none;
-    color: #333;
-}
-
-.news-link:hover {
-    color: #007bff;
-}
-
-.content-preview {
-    font-size: 14px;
-    color: #666;
-    margin: 6px 0;
-}
-
-.read-more {
-    margin-top: 10px;
-}
-
-.read-more-link {
-    font-size: 13px;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.read-more-link:hover {
-    text-decoration: underline;
+/* ========================================
+   KICHIK MOBILE — max 480px
+   ======================================== */
+@media (max-width: 480px) {
+    .user-info-wrapper span { display: none; }
+    .logo_area img { max-height: 40px; }
+    .navbar-date { display: none; }
 }
