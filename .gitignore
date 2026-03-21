@@ -24,7 +24,6 @@ local_settings.py
 # Media & static files (agar productionda generate qilinsa)
 media/
 staticfiles/
-static/
 
 # VS Code
 .vscode/
@@ -55,3 +54,4 @@ Pipfile.lock
 Thumbs.db
 
 cleanup-merged-branches.ps1
+seed_data.py
