@@ -120,7 +120,7 @@ else:
     AWS_QUERYSTRING_AUTH = True
     AWS_QUERYSTRING_EXPIRE = 86400
     AWS_S3_FILE_OVERWRITE = False
-    MEDIA_URL = f"{config('B2_ENDPOINT_URL', default='')}/file/{config('B2_BUCKET_NAME', default='')}/"
+    MEDIA_URL = f"https://f005.backblazeb2.com/file/{config('B2_BUCKET_NAME', default='')}/"
 
 # === SECURITY HEADERS ===
 CSRF_COOKIE_SECURE = not DEBUG
