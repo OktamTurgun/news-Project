@@ -110,17 +110,17 @@ if DEBUG:
     MEDIA_ROOT = BASE_DIR / 'media'
 else:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_ACCESS_KEY_ID = config('B2_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('B2_APPLICATION_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('B2_BUCKET_NAME')
-    AWS_S3_ENDPOINT_URL = config('B2_ENDPOINT_URL')
+    AWS_ACCESS_KEY_ID = config('B2_KEY_ID', default='')
+    AWS_SECRET_ACCESS_KEY = config('B2_APPLICATION_KEY', default='')
+    AWS_STORAGE_BUCKET_NAME = config('B2_BUCKET_NAME', default='')
+    AWS_S3_ENDPOINT_URL = config('B2_ENDPOINT_URL', default='')
     AWS_S3_REGION_NAME = 'us-east-005'
     AWS_DEFAULT_ACL = None
     AWS_S3_SIGNATURE_VERSION = 's3v4'
     AWS_QUERYSTRING_AUTH = True
-    AWS_QUERYSTRING_EXPIRE = 86400  # 24 soat
+    AWS_QUERYSTRING_EXPIRE = 86400
     AWS_S3_FILE_OVERWRITE = False
-    MEDIA_URL = f"{config('B2_ENDPOINT_URL')}/file/{config('B2_BUCKET_NAME')}/"
+    MEDIA_URL = f"{config('B2_ENDPOINT_URL', default='')}/file/{config('B2_BUCKET_NAME', default='')}/"
 
 # === SECURITY HEADERS ===
 CSRF_COOKIE_SECURE = not DEBUG
