@@ -9,7 +9,6 @@ from decouple import config, Csv
 import dj_database_url
 
 # === BASE DIRECTORY ===
-# config/settings/base.py → config/settings → config → ROOT
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # === SECURITY ===
@@ -25,21 +24,15 @@ SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=False, cast=bool)
 
 # === APPLICATIONS ===
 INSTALLED_APPS = [
-    # Whitenoise — runserver da Django static ni o'chiradi
     "whitenoise.runserver_nostatic",
-
-    # Django default
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
-    # Third-party
     "widget_tweaks",
-
-    # Local
+    "storages",
     "news_app",
     "accounts.apps.AccountsConfig",
 ]
@@ -112,8 +105,21 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # === MEDIA FILES ===
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+if DEBUG:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_ACCESS_KEY_ID = config('B2_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('B2_APPLICATION_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('B2_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = config('B2_ENDPOINT_URL')
+    AWS_S3_REGION_NAME = 'us-east-005'
+    AWS_DEFAULT_ACL = 'private'
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    AWS_QUERYSTRING_AUTH = True
+    AWS_QUERYSTRING_EXPIRE = 3600
+    MEDIA_URL = f"{config('B2_ENDPOINT_URL')}/{config('B2_BUCKET_NAME')}/media/"
 
 # === SECURITY HEADERS ===
 CSRF_COOKIE_SECURE = not DEBUG
